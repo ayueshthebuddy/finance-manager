@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Finance Manager</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+<!-- Chart.js (already included) -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+</head>
+<body class="bg-light">
+    <div class="container my-5">
+        <h1 class="text-center mb-4">Finance Manager 🚀</h1>
+    
+        <!-- Dashboard Cards -->
+        <div class="row mb-4">
+            <div class="col-md-4">
+                <div class="card text-white bg-success mb-3">
+                    <div class="card-header">Total Income</div>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ total_income }}</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card text-white bg-danger mb-3">
+                    <div class="card-header">Total Expense</div>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ total_expense }}</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card text-white bg-primary mb-3">
+                    <div class="card-header">Balance</div>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ balance }}</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <!-- Add Transaction Form -->
+        <div class="card mb-4">
+            <div class="card-header">Add Transaction</div>
+            <div class="card-body">
+                <form action="/add_transaction" method="POST">
+                    <div class="mb-3">
+                        <label class="form-label">Date:</label>
+                        <input type="date" class="form-control" name="date" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Category:</label>
+                        <input type="text" class="form-control" name="category" placeholder="Food, Rent, Salary..." required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Type:</label>
+                        <select class="form-select" name="type" required>
+                            <option value="Income">Income</option>
+                            <option value="Expense">Expense</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Amount:</label>
+                        <input type="number" class="form-control" name="amount" step="0.01" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Note:</label>
+                        <input type="text" class="form-control" name="note" placeholder="Optional">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add Transaction</button>
+                </form>
+            </div>
+        </div>
+    
+        <!-- Pie Chart -->
+        <div class="card">
+            <div class="card-header">Expenses by Category</div>
+            <div class="card-body">
+                <canvas id="expenseChart"></canvas>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+    var ctx = document.getElementById('expenseChart').getContext('2d');
+    var expenseChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: {{ categories|tojson }},
+            datasets: [{
+                label: 'Expenses',
+                data: {{ category_amounts|tojson }},
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.6)',
+                    'rgba(54, 162, 235, 0.6)',
+                    'rgba(255, 206, 86, 0.6)',
+                    'rgba(75, 192, 192, 0.6)',
+                    'rgba(153, 102, 255, 0.6)',
+                    'rgba(255, 159, 64, 0.6)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: { responsive: true }
+    });
+    </script>
+    
+
+</html>

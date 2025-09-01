@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>All Transactions</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+<div class="container my-5">
+    <h1 class="mb-4">All Transactions</h1>
+    <a href="/" class="btn btn-secondary mb-3">Back to Dashboard</a>
+
+    <table class="table table-striped table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Date</th>
+                <th>Category</th>
+                <th>Type</th>
+                <th>Amount</th>
+                <th>Note</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for tx in transactions %}
+            <tr>
+                <td>{{ tx[0] }}</td>
+                <td>{{ tx[1] }}</td>
+                <td>{{ tx[2] }}</td>
+                <td>{{ tx[3] }}</td>
+                <td>{{ tx[4] }}</td>
+                <td>{{ tx[5] }}</td>
+                <td>
+                    <a href="/edit_transaction/{{ tx[0] }}" class="btn btn-warning btn-sm">Edit</a>
+                    <a href="/delete_transaction/{{ tx[0] }}" class="btn btn-danger btn-sm" 
+   onclick="return confirm('Are you sure you want to delete this transaction?');">
+   Delete
+</a>
+
+                </td>
+                             
+            </tr>
+            {% endfor %}
+            
+            
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
